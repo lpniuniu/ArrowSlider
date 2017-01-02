@@ -15,8 +15,7 @@ enum ArrowDirection {
 
 class ArrowSlider: UIView {
 
-    var minValue:Int = 0
-    var maxValue:Int = 0
+    var maxValue:Int = 500
     var value:Int = 0
     var selectedColor:UIColor = UIColor.black
     var unselectColor:UIColor = UIColor.red
@@ -25,6 +24,7 @@ class ArrowSlider: UIView {
     class ArrowSliderChunk:UIView {
         
         var selectedColor:UIColor = UIColor.blue
+        var centerPosition:CGFloat = 0.0
         
         override init(frame: CGRect) {
             super.init(frame: frame)
@@ -37,7 +37,7 @@ class ArrowSlider: UIView {
         }
         
         override func draw(_ rect: CGRect) {
-            let selected_point = CGPoint(x: rect.width/2, y: rect.height/2)
+            let selected_point = CGPoint(x: rect.width/2, y: centerPosition)
             
             let chunkCircleHead = UIBezierPath(ovalIn: CGRect(x: selected_point.x - 15, y: selected_point.y - 45, width: 30.0, height: 30.0))
             chunkCircleHead.close()
@@ -97,7 +97,6 @@ class ArrowSlider: UIView {
             arrowBottom.close()
             UIColor.white.set()
             arrowBottom.fill()
-            
         }
     }
     
@@ -107,6 +106,7 @@ class ArrowSlider: UIView {
         super.init(frame: frame)
         
         backgroundColor = UIColor.white
+        
         
         chunk.selectedColor = selectedColor
         addSubview(chunk)
@@ -120,6 +120,8 @@ class ArrowSlider: UIView {
         super.layoutSubviews()
 
         chunk.frame = frame
+        
+        chunk.centerPosition = CGFloat(frame.height - 90)/CGFloat(maxValue)*CGFloat(value) + 45
     }
     
     override func draw(_ rect: CGRect) {
@@ -134,7 +136,7 @@ class ArrowSlider: UIView {
         
         let selected = UIBezierPath()
         selected.move(to: CGPoint(x: rect.width/2, y: 0))
-        let selected_point = CGPoint(x: rect.width/2, y: rect.height/2)
+        let selected_point = CGPoint(x: rect.width/2, y: chunk.centerPosition)
         selected.addLine(to: selected_point)
         selected.close()
         
