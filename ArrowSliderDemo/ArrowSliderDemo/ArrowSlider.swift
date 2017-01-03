@@ -110,6 +110,28 @@ class ArrowSlider: UIView {
         
         chunk.selectedColor = selectedColor
         addSubview(chunk)
+        let pan = UIPanGestureRecognizer(target: self, action:#selector(didDragged(pan:)))
+        pan.maximumNumberOfTouches = 1
+        pan.minimumNumberOfTouches = 1
+        chunk.addGestureRecognizer(pan)
+    }
+    
+    func didDragged(pan:UIPanGestureRecognizer) {
+        if pan.state == .changed || pan.state == .ended {
+            let offset  = pan.translation(in: chunk)
+            chunk.center = CGPoint(x: chunk.center.x, y: chunk.center.y + offset.y)
+            print("\(chunk.center)")
+            if chunk.frame.origin.y < 0 {
+                chunk.frame.origin.y = 0
+            }
+            
+            if chunk.frame.origin.y > self.frame.height - 90 {
+                chunk.frame.origin.y = self.frame.height - 90            }
+            pan.setTranslation(CGPoint(x:0, y:0) , in: chunk)
+            
+            
+            
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
