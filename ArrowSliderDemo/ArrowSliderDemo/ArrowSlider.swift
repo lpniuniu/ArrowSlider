@@ -125,6 +125,30 @@ class ArrowSlider: UIView {
         pan.maximumNumberOfTouches = 1
         pan.minimumNumberOfTouches = 1
         chunk.addGestureRecognizer(pan)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tap(tap:)))
+        tap.numberOfTapsRequired = 1
+        tap.numberOfTouchesRequired = 1
+        chunk.addGestureRecognizer(tap)
+    }
+    
+    func tap(tap:UITapGestureRecognizer) {
+        let tapPoint = tap.location(in: self)
+        if tapPoint.y <= chunk.center.y - chunkHeight/6 {
+            print("-")
+            value -= 1
+            if value < 0 {
+                value = 0
+            }
+            chunk.center.y = calcYByValue()
+        } else if (tapPoint.y >= chunk.center.y + chunkHeight/6) {
+            print("+")
+            value += 1
+            if value > maxValue {
+                value = maxValue
+            }
+            chunk.center.y = calcYByValue()
+        }
     }
     
     func didDragged(pan:UIPanGestureRecognizer) {
@@ -142,7 +166,7 @@ class ArrowSlider: UIView {
             pan.setTranslation(CGPoint(x:0, y:0) , in: chunk)
             
             // 根据chunk的y值，计算value
-            let value = calcValueByY()
+            value = calcValueByY()
             print("value:\(value)")
             
             setNeedsDisplay()
