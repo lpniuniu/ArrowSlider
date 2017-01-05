@@ -21,6 +21,7 @@ class ArrowSlider: UIView {
     var selectedColor:UIColor = UIColor.black
     var unselectColor:UIColor = UIColor.red
     var direction:ArrowDirection = .ArrowDirectionHorizontal
+    var valueChangeBlock:((Int)->Void)?
     
     private var chunkCircleSize:CGFloat = 0
     
@@ -140,12 +141,18 @@ class ArrowSlider: UIView {
             if value < 0 {
                 value = 0
             }
+            if (valueChangeBlock != nil) {
+                valueChangeBlock!(value)
+            }
             chunk.center.y = calcYByValue()
         } else if (tapPoint.y >= chunk.center.y + chunkHeight/6) {
             print("+")
             value += 1
             if value > maxValue {
                 value = maxValue
+            }
+            if (valueChangeBlock != nil) {
+                valueChangeBlock!(value)
             }
             chunk.center.y = calcYByValue()
         }
@@ -167,6 +174,9 @@ class ArrowSlider: UIView {
             
             // 根据chunk的y值，计算value
             value = calcValueByY()
+            if (valueChangeBlock != nil) {
+                valueChangeBlock!(value)
+            }
             print("value:\(value)")
             
             setNeedsDisplay()
