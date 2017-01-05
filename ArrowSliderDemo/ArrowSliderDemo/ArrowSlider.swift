@@ -17,9 +17,17 @@ class ArrowSlider: UIView {
 
     var maxValue:Int = 500
     var value:Int = 0
+    var chunkHeight:CGFloat = 90
     var selectedColor:UIColor = UIColor.black
     var unselectColor:UIColor = UIColor.red
     var direction:ArrowDirection = .ArrowDirectionHorizontal
+    
+    private var chunkCircleSize:CGFloat = 0
+    
+    func calcYByValue() -> CGFloat {
+        return CGFloat(frame.height - chunkHeight)/CGFloat(maxValue)*CGFloat(value) + chunkHeight/2;
+    }
+    
     
     class ArrowSliderChunk:UIView {
         
@@ -37,16 +45,16 @@ class ArrowSlider: UIView {
         }
         
         override func draw(_ rect: CGRect) {
-            let selected_point = CGPoint(x: rect.width/2, y: centerPosition)
+            let selected_point = CGPoint(x: rect.width/2, y: rect.height/2)
             
-            let chunkCircleHead = UIBezierPath(ovalIn: CGRect(x: selected_point.x - 15, y: selected_point.y - 45, width: 30.0, height: 30.0))
+            let chunkCircleHead = UIBezierPath(ovalIn: CGRect(x: selected_point.x - rect.height/6, y: selected_point.y - rect.height/2 + 1, width: rect.height/3, height: rect.height/3))
             chunkCircleHead.close()
             selectedColor.set()
             chunkCircleHead.stroke()
             UIColor.white.set()
             chunkCircleHead.fill()
             
-            let chunkCircleTail = UIBezierPath(ovalIn: CGRect(x: selected_point.x - 15, y: selected_point.y + 15, width: 30.0, height: 30.0))
+            let chunkCircleTail = UIBezierPath(ovalIn: CGRect(x: selected_point.x - rect.height/6, y: selected_point.y + rect.height/6 - 1, width: rect.height/3, height: rect.height/3))
             chunkCircleTail.close()
             
             selectedColor.set()
@@ -54,7 +62,7 @@ class ArrowSlider: UIView {
             UIColor.white.set()
             chunkCircleTail.fill()
             
-            let chunkRect = UIBezierPath(rect: CGRect(x: selected_point.x - 15, y: selected_point.y - 30, width: 30.0, height: 60.0))
+            let chunkRect = UIBezierPath(rect: CGRect(x: selected_point.x - rect.height/6, y: selected_point.y - rect.height/3, width: rect.height/3, height: rect.height/3*2))
             chunkRect.close()
             
             UIColor.white.set()
@@ -62,24 +70,24 @@ class ArrowSlider: UIView {
             
             let chunkRectBounds = UIBezierPath()
             chunkRectBounds.lineWidth = 0.5
-            chunkRectBounds.move(to: CGPoint(x: selected_point.x - 15.2, y: selected_point.y - 30))
-            chunkRectBounds.addLine(to: CGPoint(x: selected_point.x - 15.2, y: selected_point.y + 30))
-            chunkRectBounds.move(to: CGPoint(x: selected_point.x + 15.2, y: selected_point.y - 30))
-            chunkRectBounds.addLine(to: CGPoint(x: selected_point.x + 15.2, y: selected_point.y + 30))
+            chunkRectBounds.move(to: CGPoint(x: selected_point.x - rect.height/6, y: selected_point.y - rect.height/3))
+            chunkRectBounds.addLine(to: CGPoint(x: selected_point.x - rect.height/6, y: selected_point.y + rect.height/3))
+            chunkRectBounds.move(to: CGPoint(x: selected_point.x + rect.height/6, y: selected_point.y - rect.height/3))
+            chunkRectBounds.addLine(to: CGPoint(x: selected_point.x + rect.height/6, y: selected_point.y + rect.height/3))
             selectedColor.set()
             chunkRectBounds.stroke()
             
-            let chunkCircle = UIBezierPath(ovalIn: CGRect(x: selected_point.x - 12, y: selected_point.y - 12, width: 24.0, height: 24.0))
+            let chunkCircle = UIBezierPath(ovalIn: CGRect(x: selected_point.x - rect.height/6 + 3, y: selected_point.y - rect.height/6 + 3, width: rect.height/3 - 6, height: rect.height/3 - 6))
             chunkCircle.close()
             selectedColor.set()
             chunkCircle.stroke()
             
             let arrowTop:UIBezierPath = UIBezierPath()
             arrowTop.lineWidth = 2
-            arrowTop.move(to: CGPoint(x: selected_point.x - 10, y: selected_point.y - 30))
-            arrowTop.addLine(to: CGPoint(x: selected_point.x + 1, y: selected_point.y - 40))
-            arrowTop.move(to: CGPoint(x: selected_point.x, y: selected_point.y - 40))
-            arrowTop.addLine(to: CGPoint(x: selected_point.x + 10, y: selected_point.y - 30))
+            arrowTop.move(to: CGPoint(x: selected_point.x - 10, y: selected_point.y - rect.height/3))
+            arrowTop.addLine(to: CGPoint(x: selected_point.x + 1, y: selected_point.y - rect.height/2 + 5))
+            arrowTop.move(to: CGPoint(x: selected_point.x, y: selected_point.y - rect.height/2 + 5))
+            arrowTop.addLine(to: CGPoint(x: selected_point.x + 10, y: selected_point.y - rect.height/3))
             selectedColor.set()
             arrowTop.stroke()
             arrowTop.close()
@@ -88,10 +96,10 @@ class ArrowSlider: UIView {
             
             let arrowBottom:UIBezierPath = UIBezierPath()
             arrowBottom.lineWidth = 2
-            arrowBottom.move(to: CGPoint(x: selected_point.x - 10, y: selected_point.y + 30))
-            arrowBottom.addLine(to: CGPoint(x: selected_point.x + 1, y: selected_point.y + 40))
-            arrowBottom.move(to: CGPoint(x: selected_point.x, y: selected_point.y + 40))
-            arrowBottom.addLine(to: CGPoint(x: selected_point.x + 10, y: selected_point.y + 30))
+            arrowBottom.move(to: CGPoint(x: selected_point.x - 10, y: selected_point.y + rect.height/3))
+            arrowBottom.addLine(to: CGPoint(x: selected_point.x + 1, y: selected_point.y + rect.height/2 - 5))
+            arrowBottom.move(to: CGPoint(x: selected_point.x, y: selected_point.y + rect.height/2 - 5))
+            arrowBottom.addLine(to: CGPoint(x: selected_point.x + 10, y: selected_point.y + rect.height/3))
             selectedColor.set()
             arrowBottom.stroke()
             arrowBottom.close()
@@ -107,6 +115,7 @@ class ArrowSlider: UIView {
         
         backgroundColor = UIColor.white
         
+        chunkCircleSize = chunkHeight/3
         chunk.selectedColor = selectedColor
         addSubview(chunk)
         let pan = UIPanGestureRecognizer(target: self, action:#selector(didDragged(pan:)))
@@ -124,8 +133,8 @@ class ArrowSlider: UIView {
                 chunk.frame.origin.y = 0
             }
             
-            if chunk.frame.origin.y > self.frame.height - 90 {
-                chunk.frame.origin.y = self.frame.height - 90
+            if chunk.frame.origin.y > self.frame.height - chunkHeight {
+                chunk.frame.origin.y = self.frame.height - chunkHeight
             }
             pan.setTranslation(CGPoint(x:0, y:0) , in: chunk)
         }
@@ -137,10 +146,8 @@ class ArrowSlider: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-
-        chunk.frame.size = CGSize(width: 40, height: 90)
-        chunk.centerPosition = CGFloat(frame.height - 90)/CGFloat(maxValue)*CGFloat(value) + 45
-        chunk.center = CGPoint(x: frame.width/2, y: chunk.centerPosition)
+        chunk.frame.size = CGSize(width: chunkHeight/3 + 10, height: chunkHeight)
+        chunk.center = CGPoint(x: frame.width/2, y: calcYByValue())
     }
     
     override func draw(_ rect: CGRect) {
