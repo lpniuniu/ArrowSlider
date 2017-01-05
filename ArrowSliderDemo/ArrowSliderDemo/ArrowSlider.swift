@@ -144,6 +144,8 @@ class ArrowSlider: UIView {
             // 根据chunk的y值，计算value
             let value = calcValueByY()
             print("value:\(value)")
+            
+            setNeedsDisplay()
         }
     }
     
@@ -159,8 +161,8 @@ class ArrowSlider: UIView {
     
     override func draw(_ rect: CGRect) {
         let unselected = UIBezierPath()
-        unselected.move(to: CGPoint(x: rect.width/2, y: 0))
-        unselected.addLine(to: CGPoint(x: rect.width/2, y: rect.height))
+        unselected.move(to: CGPoint(x: chunk.center.x, y: chunk.center.y))
+        unselected.addLine(to: CGPoint(x: chunk.center.x, y: rect.height))
         unselected.close()
         
         unselectColor.set()
@@ -168,8 +170,8 @@ class ArrowSlider: UIView {
         unselected.fill()
         
         let selected = UIBezierPath()
-        selected.move(to: CGPoint(x: rect.width/2, y: 0))
-        let selected_point = CGPoint(x: rect.width/2, y: chunk.centerPosition)
+        selected.move(to: CGPoint(x: chunk.center.x, y: 0))
+        let selected_point = CGPoint(x: chunk.center.x, y: chunk.center.y)
         selected.addLine(to: selected_point)
         selected.close()
         
