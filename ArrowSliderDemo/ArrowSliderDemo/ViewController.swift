@@ -16,7 +16,13 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         view.addSubview(slider)
-        slider.frame = view.bounds
+        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        slider.frame = CGRect(x: view.frame.width - 40, y: 0, width: 40, height: view.frame.height)
     }
 
     override func didReceiveMemoryWarning() {

@@ -99,6 +99,7 @@
 				TargetAttributes = {
 					E393471E1E178B3B00D9FA2B = {
 						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = 327979M4M2;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -264,6 +265,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 327979M4M2;
 				INFOPLIST_FILE = ArrowSliderDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.niuniu.ArrowSliderDemo;
@@ -276,6 +278,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 327979M4M2;
 				INFOPLIST_FILE = ArrowSliderDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.niuniu.ArrowSliderDemo;
@@ -303,6 +306,7 @@
 				E39347331E178B3B00D9FA2B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
