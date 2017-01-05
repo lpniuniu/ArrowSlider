@@ -28,6 +28,9 @@ class ArrowSlider: UIView {
         return CGFloat(frame.height - chunkHeight)/CGFloat(maxValue)*CGFloat(value) + chunkHeight/2;
     }
     
+    func calcValueByY() -> Int {
+        return Int(CGFloat(chunk.center.y - chunkHeight/2)/(CGFloat(frame.height - chunkHeight)/CGFloat(maxValue)))
+    }
     
     class ArrowSliderChunk:UIView {
         
@@ -137,6 +140,10 @@ class ArrowSlider: UIView {
                 chunk.frame.origin.y = self.frame.height - chunkHeight
             }
             pan.setTranslation(CGPoint(x:0, y:0) , in: chunk)
+            
+            // 根据chunk的y值，计算value
+            let value = calcValueByY()
+            print("value:\(value)")
         }
     }
     
