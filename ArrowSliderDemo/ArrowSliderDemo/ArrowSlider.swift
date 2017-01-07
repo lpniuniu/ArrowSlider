@@ -170,10 +170,10 @@ class ArrowSlider: UIView {
             let offset  = pan.translation(in: chunk)
             chunk.center = CGPoint(x: chunk.center.x, y: chunk.center.y + offset.y)
             print("\(chunk.center)")
-            if chunk.frame.origin.y < 0 {
+            if chunk.frame.origin.y <= 0 {
                 chunk.frame.origin.y = 0
                 value = 0
-            } else if chunk.frame.origin.y > self.frame.height - chunkHeight {
+            } else if chunk.frame.origin.y >= self.frame.height - chunkHeight {
                 chunk.frame.origin.y = self.frame.height - chunkHeight
                 value = maxValue
             } else {
